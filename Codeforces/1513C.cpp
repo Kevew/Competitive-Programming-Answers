@@ -1,36 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int MOD = 1e9+7;
+long long MOD = 1e9+7;
 
-int arr[200010];
+long long arr[200010];
 
 void setup(){
-	for(int i = 0;i < 9;i++){
+	for(long long i = 0;i < 9;i++){
 		arr[i] = 2;
 	}
 	arr[9] = 3;
-	for(int i = 10;i < 200010;i++){
+	for(long long i = 10;i < 200010;i++){
 		arr[i] = (arr[i-9]+arr[i-10])%MOD;
 	}
 }
 
 void solve(){
-	int m;
-	string n;
+	long long n,m;
 	cin >> n >> m;
-	int ans = 0;
-	for(int i = 0;i < n.size();i++){
-		int x = n[n.size()-1-i]-'0';
-			ans += ((m+x<10)?1:arr[m+x-10]);
-            ans %= MOD;
+	long long temp;
+	long long ans = 0;
+	while(n > 0){
+		temp = n%10;
+		ans += ((m+temp<10)?1:arr[m+temp-10]);
+        ans %= MOD;
+        n/=10;
 	}
-	cout << ans << "\n";
+	cout << ans << endl;
 }
 
 int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	setup();
-	int t;
+	long long t;
 	cin >> t;
 	while(t--){
 		solve();

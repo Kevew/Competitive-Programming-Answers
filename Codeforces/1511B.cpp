@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int dp[500][500];
-
 void solve(){
-	int n,l,r,s;
-	cin >> n >> l >> r >> s;
-	for(int i = 0;i < )
+	int a,b,c;
+	cin >> a >> b >> c;
+	int x = pow(10,a-1)+pow(10,c-1);
+	int y = pow(10,b-1);
+	cout << x << " " << y << endl;
 }
 
 int main(){

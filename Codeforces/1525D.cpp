@@ -3,7 +3,7 @@ using namespace std;
 
 long long arr[5010];
 
-long long main(){
+int main(){
 	long long n;
 	cin >> n;
 	for(long long i = 0;i < n;i++){

@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long long arr[400010];
+
+void solve(){
+	int n;
+	cin >> n;
+	for(int i = 1;i <= n;i++){
+		cin >> arr[i];
+	}
+	arr[n+1] = 0;
+	long long ans = 0;
+	for(int i = 1;i <= n+1;i++){
+		int temp = arr[i]-arr[i-1];
+		if(temp < 0){
+			temp = 0-temp;
+		}
+		ans += temp;
+	}
+	for(int i = 1;i <= n;i++){
+		ans -= max(0LL,min(arr[i]-arr[i-1],arr[i]-arr[i+1]));
+	}
+	cout << ans << endl;
+}
+
+int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	int t;
+	cin >> t;
+	while(t--){
+		solve();
+	}
+}
