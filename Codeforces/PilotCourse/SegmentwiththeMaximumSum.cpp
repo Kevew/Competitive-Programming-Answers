@@ -103,3 +103,4 @@ int main(){
 		cout << newseg.calc(0,n).seg << endl;
 	}
 }
+

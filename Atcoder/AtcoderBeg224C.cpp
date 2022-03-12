@@ -15,16 +15,9 @@ int main(){
 	long long ans = (n*(n-1)*(n-2))/6;
 	for(long long i = 0;i < n;i++){
 		for(long long j = i+1;j < n;j++){
-			for(long long x = j+1;x < n;x++){
-				if(arr[i].first != arr[j].first){
-					long double temp = (arr[j].second-arr[i].second)/(arr[j].first-arr[i].first);
-					if(temp*(arr[x].first-arr[j].first) == (arr[x].second-arr[j].second)){
-						ans--;
-					}
-				}else{
-					if(arr[j].first == arr[x].first){
-						ans--;
-					}
+			for(long long k = j+1;k < n;k++){
+				if((arr[i].second-arr[j].second)*(arr[i].first-arr[k].first) == (arr[i].second-arr[k].second)*(arr[i].first-arr[j].first)){
+					ans--;
 				}
 			}
 		}

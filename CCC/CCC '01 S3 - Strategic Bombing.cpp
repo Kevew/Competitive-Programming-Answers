@@ -1,57 +1,69 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string roads[5000];
-int arr[50][50];
+map<char,vector<char>> check;
+bool beenhere[26];
 
-void warshall(){
-	for(int i = 0;i < 26;i++){
-		for(int j = 0;j < 26;j++){
-			if(arr[j][i]){
-				for(int w = 0;w < 26;w++){
-					if(arr[i][w]){
-						arr[j][w] = true;
-					}
-				}
-			}
+bool reachable = false;
+
+void dfs(char currentposition){
+	if(currentposition == 'B'){
+		reachable = true;
+	}
+	if(beenhere[currentposition-'A'] == false){
+		beenhere[currentposition-'A'] = true;
+		for(int j = 0;j < check[currentposition].size();j++){
+			dfs(check[currentposition][j]);
 		}
 	}
 }
 
-int main()
-{
+int main(){
+	vector<string> ans;
 	string a;
 	cin >> a;
-	int n = 0,cnt = 0;
 	while(a != "**"){
-		roads[n] = a;
+		ans.push_back(a);
 		cin >> a;
-		n++;
 	}
 	
-	for(int i = 0;i < n;i++){
-		for(int j = 0;j < 26;j++){
-			for(int k = 0;k < 26;k++){
-				if(j == k){
-					arr[j][k] = true;
-				}else{
-					arr[j][k] = false;
-				}
-			}
-		}
-		
-		for(int j = 0;j < n;j++){
-			if(i != j){
-				arr[roads[j][0]-'A'][roads[j][1]-'A'] = true;
-				arr[roads[j][1]-'A'][roads[j][0]-'A'] = true;
-			}
-		}
-		
-		warshall();
-		if(!arr[0][1]){
-			cout << roads[i] << endl;
-			cnt++;
-		}
+	for(int i = 0;i < ans.size();i++){
+		check[ans[i][0]].push_back(ans[i][1]);
+		check[ans[i][1]].push_back(ans[i][0]);
 	}
-	cout << "There are " << cnt << " disconnecting roads." << endl;
+	long long deleted = 0;
+	
+	for(int i = 0;i < ans.size();i++){
+		char f = ans[i][0];
+		char s = ans[i][1];
+		for(int j = 0;j < check[f].size();j++){
+			if(s == check[f][j]){
+				check[f].erase(check[f].begin()+j);
+				break;
+			}
+		}
+		
+		for(int j = 0;j < check[s].size();j++){
+			if(f == check[s][j]){
+				check[s].erase(check[s].begin()+j);
+				break;
+			}
+		}
+	
+		
+		reachable = false;
+		for(int j = 0;j < 26;j++){
+			beenhere[j] = false;
+		}
+		dfs('A');
+		
+		if(!reachable){
+			cout << ans[i] << endl;
+			deleted++;
+		}
+		
+		check[f].push_back(s);
+		check[s].push_back(f);
+	}
+	cout << "There are " << deleted << " disconnecting roads." << endl;
 }

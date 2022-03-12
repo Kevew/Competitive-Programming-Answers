@@ -1,15 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//This will fail 1 of the test cases
+
 int main(){
 	int a,b,c;
 	cin >> a >> b >> c;
-	double x,y,z;
-	cin >> x >> y >> z;
+	double xx,yy,zz;
+	cin >> xx >> yy >> zz;
 	
-	int x = x-a;
-	int y = y-b;
-	int z = z-c;
+	double x = xx-a;
+	double y = yy-b;
+	double z = zz-c;
 	
 	double ans = x*x + y*y + z*z;
 	int temp;

@@ -1,47 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string name[110];
-int weight[110];
-int best[110];
-int group[110];
+long double x[11];
+long double y[11];
+
+//Heron's Algorithm
 
 int main(){
-	int n,m;
-	cin >> m >> n;
+	int n;
+	cin >> n;
 	for(int i = 0;i < n;i++){
-		cin >> name[i] >> weight[i];
+		cin >> x[i];
+		cin >> y[i];
 	}
-	for(int i = 0;i <= n;i++){
-		best[i] = 999999;
-		group[i] = -1;
-	}
-	best[0] = 0;
-	group[0] = 0;
+	
+	long double ans = 0;
+	long double a,b,c,s,d;
 	for(int i = 0;i < n;i++){
-		int cur = 0;
-		for(int j = 1;j <= m && j+i-1 < n;j++){
-			cur = max(cur,weight[i+j-1]);
-			if(best[i]+cur < best[i+j]){
-				best[i+j] = best[i]+cur;
-				group[i+j] = j;
+		for(int j = i+1;j < n;j++){
+			for(int k = j+1;k < n;k++){
+				a = sqrt((x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]));
+			    b = sqrt((x[j] - x[k]) * (x[j] - x[k]) + (y[j] - y[k]) * (y[j] - y[k]));
+			    c = sqrt((x[k] - x[i]) * (x[k] - x[i]) + (y[k] - y[i]) * (y[k] - y[i]));
+			    s = (a + b + c) / 2;
+			    d = 0;
+			    if((s == 0) || (a * a + b * b - c * c < 0) || (b * b + c * c - a * a < 0) || (c * c + a * a - b * b < 0))
+			    {
+					d = max(a,max(b,c));
+				}
+			    else
+					d = 2*(a*b*c)/(4*sqrt(s*(s-a)*(s-b)*(s-c)));
+			    if (d > ans)
+					ans = d;
 			}
 		}
 	}
-	cout << "Total Time: " << best[n] << endl;
-	
-	int lines[110];
-	memset(lines,0,sizeof(lines));
-	int i = n,x = 0;
-	while(group[i] != 0){
-		lines[x++] = group[i];
-		i -= group[i];
-	}
-	int temp = 0;
-	for(i = x-1;i >= 0;i--){
-		for(int j = 0;j < lines[i];j++){
-			cout << name[temp++] + " ";
-		}
-		cout << endl;
-	}
+	cout << ans << endl;
 }

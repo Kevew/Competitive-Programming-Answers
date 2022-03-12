@@ -7,20 +7,20 @@ int main(){
 	int t;
 	cin >> t;
 	while(t--){
-		char c;
-		int n1 = 0, n2 = 0;
-		int i = 0;
-		while((c = getchar()) != '\n'){
-			if (i % 2) {
-				n1 *= 10;
-				n1 += c - '0';
-			} else {
-				n2 *= 10;
-				n2 += c - '0';
+		string s1 = "",s2 = "";
+		string a;
+		cin >> a;
+		for(int i = 0;i < a.size();i++){
+			if(i%2 == 0){
+				s1 += a[i];
+			}else{
+				s2 += a[i];
 			}
-			i++;
 		}
-		cout << (n1+1)*(n2+1)-2 << endl;
+		if(s2.empty()){
+			cout << stoi(s1)-1 << endl;
+		}else{
+			cout << (stoi(s1)+1)*(stoi(s2)+1)-2 << endl;
+		}
 	}
-	return 0;
 }
