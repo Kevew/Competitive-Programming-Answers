@@ -17,13 +17,16 @@ int main(){
   	  	A[i] = P[i].second;
   	  	C[i] = P[i].first;
   	}
+  	
     int g = N;
+    
     long long ans = 0;
     for(int i = 0;i < M;i++){
     	long long newg = __gcd(g,A[i]);
     	ans += (long long) C[i] * (g-newg);
     	g = newg;
 	}
+
   	if(g > 1){
   	  	cout << -1 << endl;
   	}else{

@@ -1,36 +1,56 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-long long n,x;
-long long arr[70];
+char arr[501][501];
+long long dis[501][501];
 
-map<long long,long long> check[70];
+long long n,m;
 
-long long solve(int i,long long x){
-	if(x == 0){
-		return 0;
-	}
-	if(i == n){
-		return 1e18;
-	}
-	if(check[i].count(x)){
-		return check[i][x];
-	}
-	long long temp = x/arr[i];
-	long long &res = check[i][x];
-	res = 1e18;
-	res = min(res,temp + solve(i+1,x-(arr[i]*temp)));
-	res = min(res,temp + 1 + solve(i+1,(arr[i]*(temp+1))-x));
-	return res;
-}
+pair<long long,long long> nDir[4] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
 int main(){
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	cin >> n >> x;
-	for(int i = 0;i < n;i++){
-		cin >> arr[i];
+	cin >> n >> m;
+	for(long long i = 0;i < n;i++){
+		for(long long j = 0;j < m;j++){
+			cin >> arr[i][j];
+			dis[i][j] = 1e9;
+		}
 	}
-	reverse(arr,arr+n);
-	cout << solve(0,x) << endl;
+	
+	deque<pair<long long,long long>> que;
+	dis[0][0] = 0;
+	que.push_back(make_pair(0,0));
+	while(!que.empty()){
+		pair<long long,long long> curr = que.front();
+		long long x = curr.first;
+		long long y = curr.second;
+		que.pop_front();
+		for(long long i = 0;i < 4;i++){
+			long long xx = x + nDir[i].first;
+			long long yy = y + nDir[i].second;
+			if(xx >= 0 && xx < n && yy >= 0 && yy < m){
+				if(dis[x][y] < dis[xx][yy] && arr[xx][yy] == '.'){
+					dis[xx][yy] = dis[x][y];
+					que.push_front(make_pair(xx,yy));
+				}
+			}
+		}
+		for(long long i = x - 2;i <= x+2;i++){
+			for(long long j = y - 2;j <= y+2;j++){
+				if((i == x-2 || i == x+2) && (j == y-2 || j == y+2)){
+					continue;
+				}
+				if(i >= 0 && i < n && j >= 0 && j < m){
+					if(dis[x][y] + 1 < dis[i][j] && arr[i][j] == '#'){
+						dis[i][j] = dis[x][y] + 1;
+						que.push_back(make_pair(i,j));
+					}
+				}
+			}
+		}
+		
+	}
+	cout << dis[n-1][m-1] << endl;
 }
